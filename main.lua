@@ -1,9 +1,9 @@
 love.window.setMode(800, 600)
 winW,winH = love.graphics.getWidth(), love.graphics.getHeight()
+local OFFSET = 10 -- offsets text from margins of screen
 TC = require "tileClick"
 
 function love.load()
-  --TODO set font to bold
 
 end
 
@@ -22,15 +22,16 @@ function love.draw()
   love.graphics.setColor(255, 255, 255)
   TC:draw()
   love.graphics.setColor(0, 255, 0)
-  love.graphics.print(string.format("Width: %d, Height: %d\nMouse at %d, %d",
-                                    winW, winH, love.mouse.getX(), love.mouse.getY()))
+  love.graphics.printf(string.format("Width: %d, Height: %d\nMouse at %d, %d",
+                                    winW, winH, love.mouse.getX(), love.mouse.getY()),
+                        OFFSET, 0, winW, "left")
   local text = [[
-              E - hold to erase
-              F - cover window
-              E+F - wipe window
-              L - load from /assets
-              S - save to]]..love.filesystem.getSaveDirectory()
-  love.graphics.printf(text, 0, 0, winW, "right")
+              hold to erase -   E
+              fill window -     F
+              wipe window -   E+F
+              load from /assets -   L
+              save to]]..love.filesystem.getSaveDirectory()..[[ -   S ]]
+  love.graphics.printf(text, 0, 0, winW - OFFSET, "right")
 end
 
 function love.keypressed(key)

@@ -18,9 +18,9 @@ _G[modname] = M           --add the table to the set of global vars
 package.loaded[modname] = M  --this makes require(...) return M
 setfenv(1,M)
 
-local TILEW, TILEH, tilesAcross, tilesDown, tileTable, mode, modes
-modes = {["draw"] = true, ["erase"] = true}
-mode = "draw"
+local modes, mode, TILEW, TILEH, tilesAcross, tilesDown, tileTable
+modes = {["draw"] = true, ["erase"] = true} -- defines possible modes
+mode = "draw" -- defines current mode
 TILEW, TILEH = 25, 25
 tilesAcross, tilesDown = ceil(winW/TILEW), ceil(winH/TILEH)
 tileTable = {}
@@ -46,13 +46,11 @@ function fill(self, x, y)
   end
 end
 
--- based on loadMap in map_functions.lua
 function loadMap(self, path)
   local tileString = loveRead(path)
   newMap(self, tileString)
 end
 
--- based on newMap in map_functions.lua
 -- writes new data to tileTable as defined by tileString
 function newMap(self, tileString)
   local width = #(tileString:match("[^\n]+")) --get width of first line
@@ -74,7 +72,7 @@ function newMap(self, tileString)
   return tileTable
 end
 
--- Uses love.graphics.rectangle to draw current tileTable
+-- Uses love.graphics.rectangle ("drawRect") to draw current tileTable
 function draw(self)
   for col = 1,#tileTable do
     for row = 1,#tileTable[col] do
@@ -95,8 +93,9 @@ function cover(self)
   end
 end
 
+-- Returns a string representing the tile map
 function printStr(self)
-  local str,line = "", ""
+  local str, line = "", ""
 
   for row = 1,tilesDown do
     line = ""
