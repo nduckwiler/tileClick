@@ -46,6 +46,7 @@ function fill(self, x, y)
   end
 end
 
+-- loads and renders a map using newMap()
 function loadMap(self, path)
   local tileString = loveRead(path)
   newMap(self, tileString)
